@@ -5,13 +5,13 @@ export function middleware(request: NextRequest) {
   const cookie = request.cookies.get('token')?.value || '';
   const path = request.nextUrl.pathname;
 
-  const publicPaths = ['/login', '/signup'];
+  const publicPaths = ['/login', '/signup','/verifyemail'];
   const protectedPaths = ['/profile']; // Include paths that require authentication
 
   // Public path logic: If logged in, redirect to the home page
   if (publicPaths.includes(path) && cookie) {
     return NextResponse.redirect(new URL('/profile', request.url));
-  }
+  } 
 
   // Protected path logic: If not logged in, redirect to login
   if (protectedPaths.some((protectedPath) => path.startsWith(protectedPath)) && !cookie) {
@@ -24,7 +24,7 @@ export function middleware(request: NextRequest) {
 
 // Middleware configuration to match specific routes
 export const config = {
-  matcher: ['/', '/profile/:path*', '/login', '/signup'], // Adjust paths as needed
+  matcher: ['/', '/profile/:path*', '/login', '/signup','/verifyemail'], // Adjust paths as needed
 };
 
 

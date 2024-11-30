@@ -3,6 +3,7 @@ import User from "@/models/userModel";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { sendEmail } from "@/helpers/mailer";
 
 connect();
 
@@ -49,6 +50,13 @@ export async function POST(request: NextRequest) {
     });
 
     return response;
+
+    //send verification email
+
+     await sendEmail({email, emailType: "VERIFY", userId: tokenData.id})
+
+
+
   } catch (error: any) {
     return NextResponse.json(
       { error: error.message || "Something went wrong" },
